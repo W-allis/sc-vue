@@ -14,13 +14,18 @@ exports.resolve = function(_path) {
 }
 
 exports.collection = function(options) {
+  const data = isProduction ? `$primary: red; $defaultSize: 16px;` :  `$primary: green; $defaultSize: 32px;`
   // options.usePostcss
-  function generateLoader(loaders) {
+  function generateLoader(loaders, loaderoptions) {
     // if (typeof loaders === 'string') loaders = [loaders]
-    
-    const output = isProduction ? ['style-loader', 'css-loader'] : [minicssextractplugin.loader, 'css-loader']
+    // 舍弃 vue-style-loader，在非production下无法分离css， 另一个办法是将打包和运行环境分开，打包的时候使用minicissextractplugin。运行使用 vue-style-loader，这里不做处理
+    const output = isProduction ? [minicssextractplugin.loader, 'css-loader'] : [minicssextractplugin.loader, 'css-loader']
+    // const output = isProduction ? [minicssextractplugin.loader, 'css-loader'] : ['vue-style-loader', 'css-loader']
 
-    output.push(loaders + '-loader')
+    loaders && (output.push({
+      loader: loaders + '-loader',
+      options: Object.assign({ }, loaderoptions, { sourceMap: options.sourceMap })
+    }))
 
     if (options.usePostcss) output.push('postcss-loader')
 
@@ -30,9 +35,10 @@ exports.collection = function(options) {
   return {
     css: generateLoader(),
     less: generateLoader('less'),
-    sass: generateLoader('sass'),
-    // must be sass
-    scss: generateLoader('sass')
+    // data；设置 css的全局变量
+    // must be sass indentedSyctax sassloader 不会处理不缩进的scss文件
+    sass: generateLoader('sass', { indentedSyntax: true }),
+    scss: generateLoader('sass', { data })
   }
 }
 

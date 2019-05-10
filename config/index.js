@@ -6,6 +6,8 @@ module.exports = {
     staticPath: '/assets',
     targetPath: path.resolve(__dirname, '../dist'),
 
+    useEslint: true,
+
     proxyTable: {
       '/api': {
         target: 'http://192.168.38.15:9905',

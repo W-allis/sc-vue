@@ -1,5 +1,7 @@
 const path = require('path')
 
+const vueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const isProduction = process.env.BASE_ENV === 'production'
 
 const config = require('../config')
@@ -7,7 +9,8 @@ const utils = require('./utils')
 
 module.exports = {
   entry: {
-    app: './src/main'
+    app: './src/main',
+    test: './src/test'
   },
   output: {
     // 打包目标地址
@@ -19,7 +22,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.ts', '.json'],
     alias: {
-      '@': path.resolve(__dirname, '../src')
+      '@': path.resolve(__dirname, '../src'),
+      // in orderTo fix render: h => h(app)  .amount('#app)
+      'vue$': 'vue/dist/vue.esm.js'
     }
   },
   module: {
@@ -28,6 +33,12 @@ module.exports = {
         test: /\.html$/,
         use: [
           'html-loader'
+        ]
+      },
+      {
+        test: /\.vue$/,
+        use: [
+          'vue-loader'
         ]
       },
       {
@@ -66,5 +77,8 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new vueLoaderPlugin()
+  ]
 }

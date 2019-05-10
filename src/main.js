@@ -1,11 +1,22 @@
+import Vue from 'vue'
+import App from './app'
+
 import '@/styles/index.scss'
+import router from '@/router'
 
-import Token from '@/utils'
+import '@/vendor/jsonToExcel'
 
-const token = new Token()
+import _ from 'lodash'
 
-token.setToken('123')
+console.log(_)
 
-const arr = [1, 2, 3, 45, 6]
+Vue.config.productionTip = false
 
-console.log(...arr)
+const app = new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App />'
+})
+
+export default app

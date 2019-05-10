@@ -3,6 +3,10 @@
   "plugins": {
     "autoprefixer": {
       "grid": true
+    },
+    "postcss-pxtorem": {
+      "rootValue": 32,
+      "propList": ["*", "!letter-spacing", "!border"]
     }
   }
 }
