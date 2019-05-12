@@ -19,9 +19,10 @@ exports.collection = function(options) {
   function generateLoader(loaders, loaderoptions) {
     // if (typeof loaders === 'string') loaders = [loaders]
     // 舍弃 vue-style-loader，在非production下无法分离css， 另一个办法是将打包和运行环境分开，打包的时候使用minicissextractplugin。运行使用 vue-style-loader，这里不做处理
-    const output = isProduction ? [minicssextractplugin.loader, 'css-loader'] : [minicssextractplugin.loader, 'css-loader']
-    // const output = isProduction ? [minicssextractplugin.loader, 'css-loader'] : ['vue-style-loader', 'css-loader']
+    // const output = isProduction ? [minicssextractplugin.loader, 'css-loader'] : [minicssextractplugin.loader, 'css-loader']
+    const output = isProduction ? [minicssextractplugin.loader, 'css-loader'] : ['style-loader', 'css-loader']
 
+    // sourmap，将css压缩之后，对应sourmap找到对应的错误行数，真正的css节省了体积
     loaders && (output.push({
       loader: loaders + '-loader',
       options: Object.assign({ }, loaderoptions, { sourceMap: options.sourceMap })

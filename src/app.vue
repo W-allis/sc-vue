@@ -2,6 +2,7 @@
   <div>
     <router-view></router-view>
     <span>测试</span>
+    <router-link to="/user">ceshi</router-link>
     <img src="@/assets/img/detail.png" alt="">
   </div>
 </template>
@@ -11,7 +12,7 @@ export default {
 }
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" scoped>
   span {
     color: $primary;
     font-size: $defaultSize;
@@ -22,7 +23,9 @@ export default {
     border: 1px solid #666;
   }
 
-  // p {
-  //   font-family: 'Courier New', Courier, monospace;
-  // }
+  /*
+  p {
+    font-family: 'Courier New', Courier, monospace;
+  }
+  */
 </style>
