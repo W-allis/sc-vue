@@ -49,10 +49,20 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.svg$/,
+        loader: 'svg-sprite-loader',
+        include: [path.resolve(__dirname, '../src/icons')],
+        options: {
+          symbolId: 'icon-[name]'
+        }
+      },
+      {
         test: /\.(jpe?g|gif|png|svg)(\?.*)?$/,
+        exclude: [path.resolve(__dirname, '../src/icons')],
         use: [
           {
             loader: 'url-loader',
+            // 将url-loader编译的icons去除，避免svg-sprite-loader编译到的是url-loader便已过的文件
             options: {
               limit: 5000,
               name: utils.resolve('img/[name].[ext]')

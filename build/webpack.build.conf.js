@@ -9,16 +9,18 @@ const terserwebpackplugin = require('terser-webpack-plugin')
 const purifycssplugin = require('purifycss-webpack')
 const glob = require('glob-all')
 const compresswebpackplugin = require('optimize-css-assets-webpack-plugin')
+const bundleanalyzerplugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const base = require('./webpack.base.conf')
 // const config = require('../config')
 const utils = require('./utils')
 
 const isProduction = process.env.BASE_ENV === 'production'
+const config = require('../config')
 // enum env_config = { prod, qa, stage }
 const env = require('../config/' + process.env.env_config + '.env')
 
-module.exports = merge(base, {
+const webpackConfig = merge(base, {
   mode: isProduction ? 'production' : 'development',
   module: {
     rules: utils.cssloaders({
@@ -60,6 +62,13 @@ module.exports = merge(base, {
           test: /vue/,
           chunks: 'initial',
           name: 'vue',
+          priority: 10,
+          enforce: true
+        },
+        lodash: {
+          test: /lodash/,
+          chunks: 'initial',
+          name: 'lodash',
           priority: 10,
           enforce: true
         },
@@ -120,3 +129,9 @@ module.exports = merge(base, {
     })
   ]
 })
+
+if (config.build.analyzer) {
+  webpackConfig.plugins.push(new bundleanalyzerplugin())
+}
+
+module.exports = webpackConfig

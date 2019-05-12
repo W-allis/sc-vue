@@ -21,6 +21,7 @@ module.exports = {
   build: {
     publicPath: '',
     staticPath: '/assets',
-    targetPath: path.resolve(__dirname, '../dist')
+    targetPath: path.resolve(__dirname, '../dist'),
+    analyzer: true
   }
 }
