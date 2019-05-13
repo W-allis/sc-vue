@@ -9,7 +9,6 @@ const terserwebpackplugin = require('terser-webpack-plugin')
 const purifycssplugin = require('purifycss-webpack')
 const glob = require('glob-all')
 const compresswebpackplugin = require('optimize-css-assets-webpack-plugin')
-const bundleanalyzerplugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const base = require('./webpack.base.conf')
 // const config = require('../config')
@@ -41,6 +40,18 @@ const webpackConfig = merge(base, {
         sourceMap: true,
         parallel: true,
         extractComments: true
+        // compress: {
+        //   // 删除所有的console语句    
+        //   drop_console: true,
+        //   // 把使用多次的静态值自动定义为变量
+        //   reduce_vars: true,
+        // },
+        // output: {
+        //   // 不保留注释
+        //   comment: false,
+        //   // 使输出的代码尽可能紧凑
+        //   beautify: false
+        // }
       })
     ],
     splitChunks: {
@@ -113,6 +124,11 @@ const webpackConfig = merge(base, {
       template: path.resolve(__dirname, '../index.html'),
       filename: 'index.html'
     }),
+    // new webpack.DllPlugin({
+    //   context: __dirname,
+    //   name: '[name]_[hash]',
+    //   path: path.join(__dirname, '../dist', 'manifest.json')
+    // }),
     // css树摇晃 purifycss-webpack purify-css glob-all
     /** 慎用，会将有用的css去掉
     new purifycssplugin({
@@ -131,7 +147,19 @@ const webpackConfig = merge(base, {
 })
 
 if (config.build.analyzer) {
+  const bundleanalyzerplugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new bundleanalyzerplugin())
+}
+
+if (config.build.gzipCompression) {
+  // 开启gzip格式，缩小体积，节省带宽
+  const compressionwebpackplugin = require('compression-webpack-plugin')  
+  webpackConfig.plugins.push(new compressionwebpackplugin({
+    test: /\.(js|css)(\?.*)?$/,
+    filename: '[path].gz[query]',
+    threshold: 8192,
+    algorithm: 'gzip'
+  }))
 }
 
 module.exports = webpackConfig

@@ -22,6 +22,7 @@ module.exports = {
     publicPath: '',
     staticPath: '/assets',
     targetPath: path.resolve(__dirname, '../dist'),
-    analyzer: true
+    analyzer: true,
+    gzipCompression: true
   }
 }

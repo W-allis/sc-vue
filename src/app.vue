@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-view></router-view>
-    <span>测试</span>
+    <span v-permission.el="'user.create.submit'">测试</span>
     <router-link to="/user">ceshi</router-link>
     <img src="@/assets/img/detail.png" alt="">
   </div>

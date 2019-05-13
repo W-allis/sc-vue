@@ -2,9 +2,8 @@ import Vue from 'vue'
 
 const requireAll = require.context('./', false, /\.directive\.js$/)
 
-console.dir(requireAll.keys().map(requireAll))
-requireAll.keys().map(requireAll).forEach(module => {
-  // Vue.directive()
-  // console.dir(module)
+requireAll.keys().map(path => {
+  const nameReg = /\.\/(.*)\.directive\.js$/
+  Vue.directive(nameReg.exec(path)[1], requireAll(path).default)
+  // console.log(path)
 })
-
