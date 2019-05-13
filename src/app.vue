@@ -22,7 +22,7 @@ export default {
     border: 1px solid #666;
   }
 
-  // p {
-  //   font-family: 'Courier New', Courier, monospace;
-  // }
+  p {
+    font-family: 'Courier New', Courier, monospace;
+  }
 </style>

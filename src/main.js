@@ -8,7 +8,7 @@ import '@/vendor/jsonToExcel'
 
 import _ from 'lodash'
 
-console.log(_)
+console.dir(_)
 
 Vue.config.productionTip = false
 
